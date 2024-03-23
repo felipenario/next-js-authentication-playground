@@ -1,81 +1,88 @@
-# Turborepo starter
+# Monorepo for Next.js Authentication Applications
 
-This is an official starter Turborepo.
+This monorepo contains three applications, including two Next.js applications for authentication and a Nest.js service for providing data.
 
-## Using this example
+## Applications
 
-Run the following command:
+### 1. next-js-simple-auth
 
-```sh
-npx create-turbo@latest
-```
+A simple Next.js application where we explore implementing basic authentication functionality.
 
-## What's inside?
+#### Features
 
-This Turborepo includes the following packages/apps:
+- User registration
+- User login
+- Protected routes
 
-### Apps and Packages
+#### Technologies
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- Next.js
+- React
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+#### Getting Started
 
-### Utilities
+1. Clone this repository.
+2. Navigate to the `next-js-simple-auth` directory.
+3. Install dependencies with `npm install` or `yarn install`.
+4. Start the development server with `npm run dev` or `yarn dev`.
 
-This Turborepo has some additional tools already setup for you:
+### 2. next-with-auth-js
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+A Next.js application where we explore implementing authentication using Auth.js (previously known as next-auth).
 
-### Build
+#### Features
 
-To build all apps and packages, run the following command:
+- JWT token-based authentication
+- Protected routes
 
-```
-cd my-turborepo
-pnpm build
-```
+#### Technologies
 
-### Develop
+- Next.js
+- React
+- Auth.js (previously next-auth)
 
-To develop all apps and packages, run the following command:
+#### Getting Started
 
-```
-cd my-turborepo
-pnpm dev
-```
+1. Clone this repository.
+2. Navigate to the `next-with-auth-js` directory.
+3. Install dependencies with `npm install` or `yarn install`.
+4. Start the development server with `npm run dev` or `yarn dev`.
 
-### Remote Caching
+### 3. nest-js-service
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+A Nest.js service providing a simple authentication method and an authenticated GET endpoint to retrieve a list of dogs.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+#### Features
 
-```
-cd my-turborepo
-npx turbo login
-```
+- Simple authentication
+- Authenticated GET endpoint for dog list
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+#### Technologies
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- Nest.js
+- TypeScript
+- Prisma
+- SQLite
 
-```
-npx turbo link
-```
+#### Getting Started
 
-## Useful Links
+1. Clone this repository.
+2. Navigate to the `nest-js-service` directory.
+3. Install dependencies with `npm install` or `yarn install`.
+4. Set up your SQLite database and configure the environment variables.
+5. Start the development server with `npm run start` or `yarn start`.
 
-Learn more about the power of Turborepo:
+## Integration
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+You can integrate the Nest.js service with the Next.js applications to fetch the list of dogs and display them in your UI.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to any of these applications, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Add new feature'`).
+5. Push to the branch (`git push origin feature/your-feature-name`).
+6. Create a new Pull Request.
