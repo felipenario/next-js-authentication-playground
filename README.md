@@ -55,7 +55,7 @@ A Nest.js service providing a simple authentication method and an authenticated 
 #### Features
 
 - Simple authentication
-- Authenticated GET endpoint for dog list
+- Authenticated GET endpoint for games list
 
 #### Technologies
 
