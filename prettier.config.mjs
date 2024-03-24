@@ -14,6 +14,7 @@ const config = {
   useTabs: false,
   bracketSpacing: true,
   plugins: ["prettier-plugin-tailwindcss"],
+  tailwindFunctions: ["mergeCn", "cva"],
 };
 
 export default config;

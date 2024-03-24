@@ -5,7 +5,15 @@ import { Injectable } from "@nestjs/common";
 export class GamesService {
   constructor(private prisma: PrismaService) {}
 
-  async getAllGames() {
-    return this.prisma.game.findMany();
+  async getAllGames(name: string | undefined) {
+    const games = await this.prisma.game.findMany({
+      where: {
+        name: {
+          contains: name,
+        },
+      },
+    });
+
+    return games;
   }
 }

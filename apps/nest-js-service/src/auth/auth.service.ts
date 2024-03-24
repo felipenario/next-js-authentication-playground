@@ -18,8 +18,6 @@ export class AuthService {
       },
     });
 
-    console.log(email);
-
     if (!user) {
       throw new UnauthorizedException("Incorrect email or password!");
     }

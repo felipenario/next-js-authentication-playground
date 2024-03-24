@@ -1,6 +1,6 @@
 import { JwtAuthGuard } from "@/auth/guards/jwt-auth.guard";
 import { GamesService } from "@/games/games.service";
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 
 @Controller("games")
 export class GamesController {
@@ -8,7 +8,7 @@ export class GamesController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAllGames() {
-    return this.gamesService.getAllGames();
+  getAllGames(@Query("name") name) {
+    return this.gamesService.getAllGames(name);
   }
 }
