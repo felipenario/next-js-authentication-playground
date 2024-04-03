@@ -50,7 +50,7 @@ A Next.js application where we explore implementing authentication using Auth.js
 
 ### 3. nest-js-service
 
-A Nest.js service providing a simple authentication method and an authenticated GET endpoint to retrieve a list of dogs.
+A Nest.js service providing a simple authentication method and an authenticated GET endpoint to retrieve a list of games.
 
 #### Features
 

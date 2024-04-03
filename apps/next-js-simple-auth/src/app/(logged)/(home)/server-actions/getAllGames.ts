@@ -1,6 +1,7 @@
 "use server";
 
 import { Game } from "@/app/(logged)/(home)/types/game";
+import { useQuery } from "@tanstack/react-query";
 
 export const getAllGames = async ({ name }: { name?: string } = {}) => {
   const cookies = require("next/headers").cookies;
@@ -24,4 +25,11 @@ export const getAllGames = async ({ name }: { name?: string } = {}) => {
   }
 
   return gamesData as Game[];
+};
+
+export const useAllGames = ({ gameName }: { gameName?: string }) => {
+  return useQuery({
+    queryKey: ["getGames", gameName],
+    queryFn: () => getAllGames({ name: gameName }),
+  });
 };

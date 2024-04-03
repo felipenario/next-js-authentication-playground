@@ -58,5 +58,11 @@ export async function signIn(
     httpOnly: true,
   });
 
+  cookies().set({
+    name: "refresh-token",
+    value: signInData.refreshToken,
+    httpOnly: true,
+  });
+
   redirect("/");
 }

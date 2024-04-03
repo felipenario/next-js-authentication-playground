@@ -15,7 +15,7 @@ import { AuthService } from "./auth.service";
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: "10h" },
+      signOptions: { expiresIn: "1m" },
     }),
   ],
   exports: [AuthService],

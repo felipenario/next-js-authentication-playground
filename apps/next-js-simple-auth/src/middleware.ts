@@ -1,13 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { withSessionValidation } from "@/app/(auth)/middlewares/withSessionValidation";
+import { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const accessToken = request.cookies.get("access-token")?.value;
-
-  if (!accessToken && request.nextUrl.pathname !== "/sign-in") {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
-  }
-
-  return NextResponse.next();
+  return withSessionValidation(request);
 }
 
 export const config = {
