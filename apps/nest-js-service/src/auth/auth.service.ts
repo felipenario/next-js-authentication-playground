@@ -80,6 +80,9 @@ export class AuthService {
         },
       });
 
+      console.log("user.refreshToken", user.refreshToken);
+      console.log("refreshToken", refreshToken);
+
       if (user.refreshToken !== refreshToken) {
         console.log("Token diff");
         throw new InternalServerErrorException(

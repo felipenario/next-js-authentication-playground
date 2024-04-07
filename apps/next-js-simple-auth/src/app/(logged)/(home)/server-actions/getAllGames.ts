@@ -1,30 +1,15 @@
 "use server";
 
 import { Game } from "@/app/(logged)/(home)/types/game";
+import { nestServiceFetch } from "@/app/clients/nestServiceFetch";
 import { useQuery } from "@tanstack/react-query";
 
 export const getAllGames = async ({ name }: { name?: string } = {}) => {
-  const cookies = require("next/headers").cookies;
+  const gamesRes = await nestServiceFetch<Game[]>({
+    path: `/games${name ? `?name=${name}` : ""}`,
+  });
 
-  const accessToken = cookies().get("access-token").value;
-
-  const gamesRes = await fetch(
-    `${process.env.NEXT_NEST_JS_SERVICE_URL}/games${name ? `?name=${name}` : ""}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-
-  const gamesData = await gamesRes.json();
-
-  if (!gamesRes.ok) {
-    throw new Error(gamesData.message);
-  }
-
-  return gamesData as Game[];
+  return gamesRes;
 };
 
 export const useAllGames = ({ gameName }: { gameName?: string }) => {

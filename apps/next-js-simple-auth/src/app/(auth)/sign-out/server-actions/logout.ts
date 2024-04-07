@@ -6,5 +6,5 @@ import { redirect } from "next/navigation";
 export const logout = () => {
   cookies().delete("access-token");
 
-  redirect("/login");
+  redirect("/sign-in");
 };
