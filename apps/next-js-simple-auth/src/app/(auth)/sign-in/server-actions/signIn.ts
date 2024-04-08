@@ -1,6 +1,7 @@
 "use server";
 
 import { SignInActionState } from "@/app/(auth)/sign-in/types/sign-in-action-state";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signIn(
@@ -26,19 +27,13 @@ export async function signIn(
     };
   }
 
-  const signInRes = await fetch(
-    `${process.env.NEXT_NEST_JS_SERVICE_URL}/auth/sign-in`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password,
-      }),
-    }
-  );
+  const signInRes = await fetch(`${process.env.NEXT_URL}/api/sign-in`, {
+    method: "POST",
+    body: JSON.stringify({
+      email: data.email,
+      password: data.password,
+    }),
+  });
 
   const signInData = await signInRes.json();
 
@@ -48,21 +43,6 @@ export async function signIn(
       message: signInData.message,
     };
   }
-
-  // Using require because of a issue with client components
-  const cookies = require("next/headers").cookies;
-
-  cookies().set({
-    name: "access-token",
-    value: signInData.accessToken,
-    httpOnly: true,
-  });
-
-  cookies().set({
-    name: "refresh-token",
-    value: signInData.refreshToken,
-    httpOnly: true,
-  });
 
   redirect("/");
 }
