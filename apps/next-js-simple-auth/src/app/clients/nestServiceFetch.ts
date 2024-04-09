@@ -1,28 +1,22 @@
 "use server";
 
+import { getSession } from "@/app/(auth)/session/server-actions/getSession";
 import { FetchWrapperProps } from "@/app/types/fetch-wrapper-props";
-import { UserCredentials } from "@/app/types/user-credentials";
-import { headers } from "next/headers";
 
 export const nestServiceFetch = async <TData = any>({
   path,
   init,
 }: FetchWrapperProps) => {
-  const sessionRes = await fetch(`${process.env.NEXT_URL}/api/session`, {
-    method: "GET",
-    headers: headers(),
-  });
+  const sessionRes = await getSession();
 
-  if (!sessionRes.ok) {
+  if (!sessionRes.isLoggedIn) {
     throw new Error("Unauthorized!");
   }
-
-  const sessionData: UserCredentials = await sessionRes.json();
 
   const defaultInit: RequestInit = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${sessionData.accessToken}`,
+      Authorization: `Bearer ${sessionRes.accessToken}`,
       ...init?.headers,
     },
     ...init,
@@ -36,7 +30,7 @@ export const nestServiceFetch = async <TData = any>({
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error("Error fetching to service!");
+    throw new Error(res.statusText);
   }
 
   return data as TData;

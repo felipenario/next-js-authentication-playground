@@ -1,4 +1,4 @@
-import { getAllGames } from "@/app/(logged)/(home)/server-actions/getAllGames";
+import { getAllGames } from "@/app/(logged)/(home)/requests/getAllGames";
 import { GameListWithFilters } from "@/app/(logged)/(home-react-query)/react-query/components/GameListWithFilters/GameListWithFilters";
 import {
   HydrationBoundary,

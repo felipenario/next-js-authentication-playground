@@ -1,16 +1,13 @@
-import { getAllGames } from "@/app/(logged)/(home)/server-actions/getAllGames";
-import { GameList } from "@/app/components/GameList/GameList";
+import { GameListWithoutFilters } from "@/app/(logged)/(home)/components/GameListWithoutFilters/GameListWithoutFilters";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 export default async function HomePage() {
-  const games = await getAllGames();
-
   return (
     <div>
       <ErrorBoundary fallback={<p>Error fetching games</p>}>
         <Suspense fallback={<p>Loading games...</p>}>
-          <GameList games={games} />
+          <GameListWithoutFilters />
         </Suspense>
       </ErrorBoundary>
     </div>

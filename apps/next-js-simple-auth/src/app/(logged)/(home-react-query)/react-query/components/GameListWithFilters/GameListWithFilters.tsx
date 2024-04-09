@@ -1,9 +1,8 @@
 "use client";
 
-import { getAllGames } from "@/app/(logged)/(home)/server-actions/getAllGames";
+import { useAllGames } from "@/app/(logged)/(home)/requests/getAllGames";
 import { GameList } from "@/app/components/GameList/GameList";
 import { Input } from "@/app/components/Input/Input";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export const GameListWithFilters = () => {
@@ -13,9 +12,8 @@ export const GameListWithFilters = () => {
     data: games,
     isLoading: isLoadingGames,
     isError: isErrorGames,
-  } = useQuery({
-    queryKey: ["getGames", gameName],
-    queryFn: () => getAllGames({ name: gameName }),
+  } = useAllGames({
+    gameName: gameName,
   });
 
   return (

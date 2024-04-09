@@ -1,19 +1,17 @@
-import { verifyUserSession } from "@/app/(auth)/utils/verify-user-session";
+import { getSession } from "@/app/(auth)/session/server-actions/getSession";
 import { Header } from "@/app/components/Header/Header";
-import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function LoggedLayout({
+export default async function LoggedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  verifyUserSession();
-  const accessToken = cookies().get("access-token")?.value;
+  const session = await getSession();
 
-  const refreshToken = cookies().get("refresh-token")?.value;
-
-  console.log(accessToken);
-  console.log(refreshToken);
+  if (!session.isLoggedIn) {
+    redirect("/sign-in");
+  }
 
   return (
     <div>

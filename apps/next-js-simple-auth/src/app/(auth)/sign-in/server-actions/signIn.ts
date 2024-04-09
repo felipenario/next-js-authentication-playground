@@ -1,7 +1,9 @@
 "use server";
 
 import { SignInActionState } from "@/app/(auth)/sign-in/types/sign-in-action-state";
-import { headers } from "next/headers";
+import { IronSessionData, ironSessionOptions } from "@/app/lib/iron-session";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signIn(
@@ -27,13 +29,19 @@ export async function signIn(
     };
   }
 
-  const signInRes = await fetch(`${process.env.NEXT_URL}/api/sign-in`, {
-    method: "POST",
-    body: JSON.stringify({
-      email: data.email,
-      password: data.password,
-    }),
-  });
+  const signInRes = await fetch(
+    `${process.env.NEXT_NEST_JS_SERVICE_URL}/auth/sign-in`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+      }),
+    }
+  );
 
   const signInData = await signInRes.json();
 
@@ -43,6 +51,17 @@ export async function signIn(
       message: signInData.message,
     };
   }
+
+  const session = await getIronSession<IronSessionData>(
+    cookies(),
+    ironSessionOptions
+  );
+
+  session.accessToken = signInData.accessToken;
+  session.refreshToken = signInData.refreshToken;
+  session.isLoggedIn = true;
+
+  await session.save();
 
   redirect("/");
 }

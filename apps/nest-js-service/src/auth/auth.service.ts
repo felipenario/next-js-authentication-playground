@@ -65,7 +65,6 @@ export class AuthService {
   }
 
   async refreshSession(accessToken: string, refreshToken: string) {
-    console.log({ refreshToken });
     try {
       const accessTokenPayload = this.jwtService.decode(accessToken);
 
@@ -80,11 +79,7 @@ export class AuthService {
         },
       });
 
-      console.log("user.refreshToken", user.refreshToken);
-      console.log("refreshToken", refreshToken);
-
       if (user.refreshToken !== refreshToken) {
-        console.log("Token diff");
         throw new InternalServerErrorException(
           "Error refreshing user session!"
         );
