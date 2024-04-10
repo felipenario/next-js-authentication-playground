@@ -1,18 +1,22 @@
 # Monorepo for Next.js Authentication Applications
 
-This monorepo contains three applications, including two Next.js applications for authentication and a Nest.js service for providing data.
+This monorepo contains some applications, including some Next.js applications to work with authentication using app router and pages router and a Nest.js service for providing data.
+
+The applications have accessToken and refreshToken sessions.
 
 ## Applications
 
-### 1. next-js-simple-auth
+### 1. next-js-app-router-simple-auth
 
-A simple Next.js application where we explore implementing basic authentication functionality.
+A simple Next.js application where we explore implementing basic authentication using only iron session on app router.
 
 #### Features
 
-- User registration
+- App router
 - User login
 - Protected routes
+- Client and Server Components authentication
+- Tanstack Query for client components
 
 #### Technologies
 
@@ -26,9 +30,9 @@ A simple Next.js application where we explore implementing basic authentication 
 3. Install dependencies with `npm install` or `yarn install`.
 4. Start the development server with `npm run dev` or `yarn dev`.
 
-### 2. next-with-auth-js
+### 2. next-js-app-router-with-auth-js
 
-A Next.js application where we explore implementing authentication using Auth.js (previously known as next-auth).
+A Next.js application where we explore implementing authentication using Auth.js (previously known as next-auth) on app router.
 
 #### Features
 
@@ -50,11 +54,11 @@ A Next.js application where we explore implementing authentication using Auth.js
 
 ### 3. nest-js-service
 
-A Nest.js service providing a simple authentication method and an authenticated GET endpoint to retrieve a list of dogs.
+A Nest.js service providing a simple authentication method and an authenticated GET endpoint to retrieve a list of games.
 
 #### Features
 
-- Simple authentication
+- Simple authentication with access and refresh token
 - Authenticated GET endpoint for games list
 
 #### Technologies
