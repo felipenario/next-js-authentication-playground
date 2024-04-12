@@ -1,30 +1,33 @@
-import { useRouter } from "next/router";
+import { GameList } from "@/components/GameList/GameList";
+import { Input } from "@/components/Input/Input";
+import { useGames } from "@/features/games/api/getGames";
+import { HomeLayout } from "@/layouts/HomeLayout/HomeLayout";
+import { NextPageWithLayout } from "@/types/next-page-with-layout";
+import { ReactElement, useState } from "react";
 
-export const getServerSideProps = async () => {
-  return {
-    props: {},
-  };
-};
+const HomePage: NextPageWithLayout = () => {
+  const [gameName, setGameName] = useState("");
 
-export default function Home() {
-  const { push } = useRouter();
-
-  const logout = async () => {
-    const signInRes = await fetch(`${process.env.NEXT_URL}/api/auth/sign-out`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (signInRes.ok) {
-      push("/sign-in");
-    }
-  };
+  const {
+    data: games,
+    isLoading: isLoadingGames,
+    isError: isErrorGames,
+  } = useGames({
+    gameName,
+  });
 
   return (
-    <main className="h-screen w-screen items-center justify-center">
-      <button onClick={() => logout()}>LOGOUT</button>
-    </main>
+    <div className="flex flex-col gap-4">
+      <Input placeholder="Name" onChange={(e) => setGameName(e.target.value)} />
+      {isLoadingGames && <p>Loading games...</p>}
+      {isErrorGames && <p>Error on loading games!</p>}
+      {games && <GameList games={games} />}
+    </div>
   );
-}
+};
+
+HomePage.getLayout = function getLayout(page: ReactElement) {
+  return <HomeLayout>{page}</HomeLayout>;
+};
+
+export default HomePage;

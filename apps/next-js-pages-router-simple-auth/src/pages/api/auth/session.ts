@@ -29,7 +29,7 @@ export default async function handler(
 
   if (isAccessTokenCloseToExpire) {
     const refreshRes = await fetch(
-      `${process.env.NEXT_NEST_JS_SERVICE_URL}/auth/refresh-session`,
+      `${process.env.NEXT_PUBLIC_NEST_JS_SERVICE_URL}/auth/refresh-session`,
       {
         method: "POST",
         headers: {

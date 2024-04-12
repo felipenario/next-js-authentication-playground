@@ -18,16 +18,19 @@ export const SignInForm = () => {
   });
 
   const onSubmit: SubmitHandler<SignInFormFields> = async (data) => {
-    const signInRes = await fetch("/api/auth/sign-in", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password,
-      }),
-    });
+    const signInRes = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/auth/sign-in`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      }
+    );
 
     if (signInRes.ok) {
       push("/");

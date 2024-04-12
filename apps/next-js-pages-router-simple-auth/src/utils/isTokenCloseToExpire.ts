@@ -1,4 +1,4 @@
-import { getJwtExpiration } from "@/app/utils/getJwtExpiration";
+import { getJwtExpiration } from "@/utils/getJwtExpiration";
 
 export const isTokenCloseToExpire = (
   jwtToken: string,

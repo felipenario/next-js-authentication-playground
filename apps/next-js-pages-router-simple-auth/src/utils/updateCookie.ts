@@ -2,62 +2,66 @@ import {
   IronSessionData,
   defaultSession,
   ironSessionOptions,
-} from "@/app/lib/iron-session";
-import { UserCredentials } from "@/app/types/user-credentials";
-import { isTokenCloseToExpire } from "@/app/utils/isTokenCloseToExpire";
-import { IronSession, sealData } from "iron-session";
-import { NextResponse } from "next/server";
+} from "@/lib/iron-session";
+import { UserCredentials } from "@/types/user-credentials";
+import { isTokenCloseToExpire } from "@/utils/isTokenCloseToExpire";
+import { getIronSession } from "iron-session";
+import { NextRequest, NextResponse } from "next/server";
 
 export const updateCookie = async (
-  session: IronSession<IronSessionData>,
+  request: NextRequest,
   response: NextResponse
 ): Promise<NextResponse<unknown>> => {
-  const isAccessTokenCloseToExpire = isTokenCloseToExpire(
-    session.accessToken,
-    55
+  const session = await getIronSession<IronSessionData>(
+    request,
+    response,
+    ironSessionOptions
   );
 
-  if (isAccessTokenCloseToExpire) {
-    const refreshRes = await fetch(
-      `${process.env.NEXT_NEST_JS_SERVICE_URL}/auth/refresh-session`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          accessToken: session.accessToken,
-          refreshToken: session.refreshToken,
-        }),
-      }
+  if (session.isLoggedIn) {
+    const isAccessTokenCloseToExpire = isTokenCloseToExpire(
+      session.accessToken,
+      55
     );
 
-    const body = await refreshRes.json();
+    if (isAccessTokenCloseToExpire) {
+      const refreshRes = await fetch(
+        `${process.env.NEXT_PUBLIC_NEST_JS_SERVICE_URL}/auth/refresh-session`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            accessToken: session.accessToken,
+            refreshToken: session.refreshToken,
+          }),
+        }
+      );
 
-    if (!refreshRes.ok) {
-      session.accessToken = defaultSession.accessToken;
-      session.refreshToken = defaultSession.refreshToken;
-      session.isLoggedIn = defaultSession.isLoggedIn;
+      const body = await refreshRes.json();
 
-      const sealedSession = await sealData(session, ironSessionOptions);
+      if (!refreshRes.ok) {
+        session.accessToken = defaultSession.accessToken;
+        session.refreshToken = defaultSession.refreshToken;
+        session.isLoggedIn = defaultSession.isLoggedIn;
 
-      response.cookies.set("session", sealedSession);
+        await session.save();
+
+        return NextResponse.redirect(new URL("/sign-in", request.url));
+      }
+
+      const typedBody = body as UserCredentials;
+
+      session.accessToken = typedBody.accessToken;
+      session.refreshToken = typedBody.refreshToken;
+      session.isLoggedIn = true;
+
+      await session.save();
 
       return response;
     }
-
-    const typedBody = body as UserCredentials;
-
-    session.accessToken = typedBody.accessToken;
-    session.refreshToken = typedBody.refreshToken;
-    session.isLoggedIn = true;
-
-    const sealedRefreshedSession = await sealData(session, ironSessionOptions);
-
-    response.cookies.set("session", sealedRefreshedSession);
-
-    return response;
   }
 
-  return NextResponse.next();
+  return response;
 };

@@ -1,11 +1,10 @@
 import { IronSessionData, ironSessionOptions } from "@/lib/iron-session";
-import { UserCredentials } from "@/types/user-credentials";
 import { getIronSession } from "iron-session";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<UserCredentials | { message: string }>
+  res: NextApiResponse
 ) {
   const body: {
     email: string;
@@ -13,7 +12,7 @@ export default async function handler(
   } = req.body;
 
   const signInRes = await fetch(
-    `${process.env.NEXT_NEST_JS_SERVICE_URL}/auth/sign-in`,
+    `${process.env.NEXT_PUBLIC_NEST_JS_SERVICE_URL}/auth/sign-in`,
     {
       method: "POST",
       headers: {
@@ -29,7 +28,8 @@ export default async function handler(
   const signInData = await signInRes.json();
 
   if (!signInRes.ok) {
-    return res.status(401).json({ message: signInData.message });
+    res.status(401).send({ message: signInData.message });
+    return;
   }
 
   const session = await getIronSession<IronSessionData>(
@@ -44,5 +44,5 @@ export default async function handler(
 
   await session.save();
 
-  return res.status(200);
+  res.status(200).end();
 }

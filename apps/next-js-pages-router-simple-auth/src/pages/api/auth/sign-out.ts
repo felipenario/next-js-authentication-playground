@@ -14,5 +14,5 @@ export default async function handler(
 
   session.destroy();
 
-  return res.status(200);
+  res.status(200).end();
 }
