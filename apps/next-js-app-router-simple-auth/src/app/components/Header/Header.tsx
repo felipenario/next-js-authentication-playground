@@ -1,4 +1,4 @@
-import { HeaderSignOutButton } from "@/app/components/HeaderSignOutButton/HeaderSignOutButton";
+import { HeaderSignOutButton } from "@/app/components/header/sign-out/header-sign-out-button";
 import { Gamepad2 } from "lucide-react";
 
 export const Header = () => {

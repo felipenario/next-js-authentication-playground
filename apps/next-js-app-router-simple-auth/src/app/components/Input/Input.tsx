@@ -1,5 +1,5 @@
-import { InputProps } from "@/app/components/Input/Input.types";
-import { mergeCn } from "@/app/utils/mergeCn";
+import { InputProps } from "@/app/components/input/input.types";
+import { mergeCn } from "@/app/utils/merge-cn";
 import * as React from "react";
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
