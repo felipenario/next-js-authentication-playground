@@ -1,5 +1,7 @@
 import { SessionOptions } from "iron-session";
 
+export const ironSessionCookieName = "session";
+
 export type IronSessionData = {
   accessToken: string;
   refreshToken: string;
@@ -14,7 +16,7 @@ export const defaultSession: IronSessionData = {
 
 export const ironSessionOptions: SessionOptions = {
   password: process.env.NEXT_IRON_SESSION_COOKIE_PASSWORD!,
-  cookieName: "session",
+  cookieName: ironSessionCookieName,
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
   },

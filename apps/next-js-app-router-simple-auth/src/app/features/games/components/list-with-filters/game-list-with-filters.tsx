@@ -1,7 +1,7 @@
 "use client";
 
 import { GameList } from "@/app/components/game-list/game-list";
-import { Input } from "@/app/components/input/input";
+import { Input } from "@/app/components/ui/input";
 import { useAllGames } from "@/app/features/games/api/get-all-games";
 import { useState } from "react";
 

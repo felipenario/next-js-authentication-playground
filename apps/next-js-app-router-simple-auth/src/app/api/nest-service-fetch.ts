@@ -1,13 +1,17 @@
-import { auth } from "@/app/lib/auth";
+import { getSession } from "@/app/features/auth/api/get-session";
+import {
+  ironSessionCookieName,
+  IronSessionData,
+  ironSessionOptions,
+} from "@/app/lib/iron-session";
 import {
   FetchClientError,
   FetchClientProps,
   FetchDefaultErrorResponse,
 } from "@/app/types/fetch-client-types";
 import { isServer } from "@tanstack/react-query";
-import { getSession } from "next-auth/react";
+import { unsealData } from "iron-session";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const nestServiceFetch = async <TData = any>(
   path: string,
   init: FetchClientProps = {}
@@ -17,25 +21,34 @@ export const nestServiceFetch = async <TData = any>(
   };
 
   if (isServer) {
-    const session = await auth();
+    const { cookies } = await import("next/headers");
 
-    defaultHeaders = {
-      "Content-Type": "application/json",
-      ...(session &&
-        session.user && {
-          Authorization: `Bearer ${session.user.accessToken}`,
+    const cookieSession = cookies().get(ironSessionCookieName);
+
+    if (cookieSession) {
+      const unsealedData = await unsealData<IronSessionData>(
+        cookieSession.value,
+        ironSessionOptions
+      );
+
+      defaultHeaders = {
+        "Content-Type": "application/json",
+        ...(unsealedData.isLoggedIn && {
+          Authorization: `Bearer ${unsealedData.accessToken}`,
         }),
-    };
+      };
+    }
   } else {
-    const session = await getSession();
+    try {
+      const session = await getSession();
 
-    defaultHeaders = {
-      "Content-Type": "application/json",
-      ...(session &&
-        session.user && {
-          Authorization: `Bearer ${session.user.accessToken}`,
+      defaultHeaders = {
+        "Content-Type": "application/json",
+        ...(session.isLoggedIn && {
+          Authorization: `Bearer ${session.accessToken}`,
         }),
-    };
+      };
+    } catch {}
   }
 
   const headers = {

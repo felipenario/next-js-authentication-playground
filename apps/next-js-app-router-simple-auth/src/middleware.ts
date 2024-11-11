@@ -1,38 +1,80 @@
-import { IronSessionData, ironSessionOptions } from "@/app/lib/iron-session";
-import { updateCookie } from "@/app/utils/update-cookie";
-import { getIronSession } from "iron-session";
+import { refreshSession } from "@/app/features/auth/api/refresh-session";
+import { applySetCookie } from "@/app/features/auth/utils/apply-set-cookie";
+import {
+  defaultSession,
+  ironSessionCookieName,
+  IronSessionData,
+  ironSessionOptions,
+} from "@/app/lib/iron-session";
+import { isJwtCloseToExpire } from "@/app/utils/is-jwt-close-to-expire";
+import { getIronSession, sealData } from "iron-session";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+async function signOut(request: NextRequest) {
+  const response = NextResponse.redirect(new URL("/sign-in", request.url));
+
+  const sealedDefaultSession = await sealData(
+    defaultSession,
+    ironSessionOptions
+  );
+
+  response.cookies.set(ironSessionCookieName, sealedDefaultSession);
+
+  applySetCookie(request, response);
+
+  return response;
+}
+
 export async function middleware(request: NextRequest) {
-  // const session = await getIronSession<IronSessionData>(
-  //   cookies(),
-  //   ironSessionOptions
-  // );
+  const session = await getIronSession<IronSessionData>(
+    cookies(),
+    ironSessionOptions
+  );
 
-  // if (!session.isLoggedIn && request.nextUrl.pathname !== "/sign-in") {
-  //   return NextResponse.redirect(new URL("/sign-in", request.url));
-  // }
+  if (!session.isLoggedIn && request.nextUrl.pathname !== "/sign-in") {
+    return signOut(request);
+  }
 
-  // let response = NextResponse.redirect(request.url);
+  const response = NextResponse.next();
 
-  // if (session.isLoggedIn) {
-  //   return updateCookie(session, response);
-  // }
+  if (session.isLoggedIn && isJwtCloseToExpire(session.accessToken, 55)) {
+    try {
+      const { accessToken, refreshToken } = await refreshSession({
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
+      });
 
-  return NextResponse.next();
+      const encodedSession = await sealData(
+        {
+          accessToken,
+          refreshToken,
+          isLoggedIn: true,
+        },
+        {
+          password: process.env.NEXT_IRON_SESSION_COOKIE_PASSWORD!,
+        }
+      );
+
+      response.cookies.set(ironSessionCookieName, encodedSession);
+
+      applySetCookie(request, response);
+
+      console.log("refrescou");
+
+      return response;
+    } catch (e) {
+      console.log(e);
+      return signOut(request);
+    }
+  }
+
+  return response;
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api(?!/auth/session)|_next/static|_next/image|favicon.ico).*)",
   ],
 };
