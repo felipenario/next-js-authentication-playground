@@ -140,7 +140,7 @@ export const gamesToSeed: Game[] = [
       "Assassin's Creed Origins is a 2017 action role-playing video game developed by Ubisoft Montreal and published by Ubisoft. It is the tenth major installment in the Assassin's Creed series, following 2015's Assassin's Creed Syndicate. Principally set in Egypt, near the end of the Ptolemaic period from 49 to 43 BC, the story follows a Medjay named Bayek of Siwa and his wife Aya as they seek revenge for the murder of their son. It also explores the origins of the Assassin Brotherhood—referred here to as the Hidden Ones—and of their millennia-long conflict with the Order of the Ancients—forerunners to the Templar Order. The framing story, set in the 21st century, follows a new character, Layla Hassan, who relives Bayek and Aya's memories using a modified Animus device.",
   },
   {
-    id: 10,
+    id: 11,
     name: "Assassin's Creed Odyssey",
     developers: "Ubisoft Quebec",
     publishers: "Ubisoft",
@@ -154,7 +154,7 @@ export const gamesToSeed: Game[] = [
       "Assassin's Creed Odyssey is a 2018 action role-playing video game developed by Ubisoft Quebec and published by Ubisoft. It is the eleventh major installment in the Assassin's Creed series and the successor to 2017's Assassin's Creed Origins. Like its predecessor, the game features a large open world and adopts many elements from the role-playing genre, putting more emphasis on combat and exploration than stealth. Naval combat from previous titles in the series also plays a prominent role in Odyssey. The game's plot tells a mythological history of the Peloponnesian War between Athens and Sparta from 431 to 422 BC. Players control a Spartan mercenary, who fights on both sides of the conflict as they attempt to find their family and eliminate the mysterious Cult of Kosmos. Odyssey also continues the story arc of Layla Hassan, a major character introduced in Origins, who relives the mercenary's memories through the Animus device to find a powerful artifact.",
   },
   {
-    id: 11,
+    id: 12,
     name: "Assassin's Creed Valhalla",
     developers: "Ubisoft Montreal",
     publishers: "Ubisoft",
@@ -168,7 +168,7 @@ export const gamesToSeed: Game[] = [
       "Assassin's Creed Valhalla is a 2020 action role-playing video game developed by Ubisoft Montreal and published by Ubisoft. It is the twelfth major installment in the Assassin's Creed series, and the successor to 2018's Assassin's Creed Odyssey. Principally set in the years 872–878 AD, the game recounts a fictional story during the Viking expansions into the British Isles. Players control Eivor Varinsdottir, a Viking raider who, while attempting to establish a new Viking clan in England, becomes embroiled in the centuries-old conflict between the Assassin Brotherhood, who fight for peace and liberty, and the Templar Order, who desire peace through control.[c] The game also includes a framing story, set in the 21st century, which follows Layla Hassan, an Assassin who relives Eivor's memories so as to find a way to save the Earth from destruction.",
   },
   {
-    id: 12,
+    id: 13,
     name: "Assassin's Creed Mirage",
     developers: "Ubisoft Bordeaux",
     publishers: "Ubisoft",
