@@ -29,8 +29,6 @@ export const nestServiceFetch = async <TData = any>(
   } else {
     const session = await getSession();
 
-    console.log(session);
-
     defaultHeaders = {
       "Content-Type": "application/json",
       ...(session &&

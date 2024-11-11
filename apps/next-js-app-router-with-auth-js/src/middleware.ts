@@ -18,8 +18,6 @@ function signOut(request: NextRequest) {
 }
 
 export async function middleware(request: NextRequest) {
-  console.log("middleware");
-
   const secureSession = request.nextUrl.protocol === "https:";
 
   const sessionCookie = secureSession
@@ -70,5 +68,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!api(?!/auth/session)|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

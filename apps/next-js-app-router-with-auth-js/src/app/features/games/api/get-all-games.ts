@@ -1,4 +1,4 @@
-import { nestServiceFetch } from "@/app/api/clients/nestServiceFetch";
+import { nestServiceFetch } from "@/app/api/clients/nest-service-fetch";
 import { Game } from "@/app/features/games/types/game";
 import { useSuspenseQuery } from "@tanstack/react-query";
 

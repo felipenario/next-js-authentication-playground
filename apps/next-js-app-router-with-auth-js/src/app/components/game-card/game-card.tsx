@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export const GameCard = ({ coverUrl, name }: GameCardProps) => {
   return (
-    <div className="flex w-fit max-w-[250px] flex-col gap-2 overflow-hidden rounded-lg bg-gray-50 shadow-lg">
-      <div className="relative h-[300px] w-[250px]">
+    <div className="flex flex-[1_1_250px] flex-col gap-2 overflow-hidden rounded-lg bg-gray-50 shadow-lg">
+      <div className="relative h-[300px] w-[100%]">
         <Image
           className="rounded-lg"
           src={coverUrl}

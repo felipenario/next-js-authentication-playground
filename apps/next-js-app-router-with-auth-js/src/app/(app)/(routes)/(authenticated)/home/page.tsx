@@ -19,9 +19,7 @@ export default async function HomePage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex w-full flex-col items-center justify-center gap-9 px-4">
-        <Suspense fallback={<div>loading client...</div>}>
-          <GameListWithFilters />
-        </Suspense>
+        <GameListWithFilters />
 
         <Suspense fallback={<div>loading server...</div>}>
           <GameListWithoutFilters />

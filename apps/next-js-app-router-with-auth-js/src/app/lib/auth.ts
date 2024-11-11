@@ -37,8 +37,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        console.log("credentials", credentials);
-
         if (credentials.email === "" && credentials.password === "") {
           throw new Error("Invalid credentials");
         }

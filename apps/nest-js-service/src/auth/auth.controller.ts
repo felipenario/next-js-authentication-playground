@@ -15,7 +15,6 @@ export class AuthController {
 
   @Post("refresh-session")
   async refreshSession(@Body() refreshSessionDto: RefreshSessionDto) {
-    console.log("refrescou aqui hein");
     return this.authService.refreshSession(
       refreshSessionDto.accessToken,
       refreshSessionDto.refreshToken
